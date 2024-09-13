@@ -1,0 +1,39 @@
+server:
+  port: 8081
+
+spring:
+  profiles:
+    default: local
+  application:
+    name:
+      store-management-api
+  docker:
+    compose:
+      file: management-system/docker-compose.yml
+      lifecycle-management: start_only
+      profiles:
+        active: dev
+  r2dbc:
+    url: r2dbc:mysql://localhost:3306/Management_Store
+    username: tg
+    password: secret
+  flyway:
+    password: secret
+    user: tg
+    url: jdbc:mysql://localhost:3306/Management_Store
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, metrics, env, conditions
+  endpoint:
+    health:
+      show-details: always
+
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+  server:
+    enable-self-preservation: false
